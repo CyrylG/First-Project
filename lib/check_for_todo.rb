@@ -3,9 +3,5 @@
 #I want to check if a text includes the string #TODO.
 
 def check_for_todo(text)
-  if text.include?("#TODO")
-    true
-  else
-    false
-  end
+  text.include?("#TODO") ? true : false 
 end
