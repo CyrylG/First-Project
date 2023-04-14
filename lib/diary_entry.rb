@@ -38,7 +38,6 @@ class DiaryEntry
     @contents.shift(number_of_words)
     @contents = @contents.join(" ")
     return @result.join(" ")
-    
 
     # `wpm` is an integer representing the number
     # of words the user can read per minute
