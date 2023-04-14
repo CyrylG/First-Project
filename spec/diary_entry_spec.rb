@@ -82,8 +82,8 @@ RSpec.describe DiaryEntry do
 
   it "return title and return contents" do
     diary_entry = DiaryEntry.new("Hello", "one two three four five six")
-    diary_entry.title
+    expect(diary_entry.title).to eq "Hello"
     diary_entry.reading_chunk(400, 0.01)
-    expect(diary_entry.reading_chunk(400, 0.01)).to eq "Hello one two three four five six"
+    expect(diary_entry.reading_chunk(400, 0.01)).to eq "one two three four five six"
   end
 end
