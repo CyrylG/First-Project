@@ -37,4 +37,10 @@ RSpec.describe DiaryEntry do
     diary_entry = DiaryEntry.new("", "one two three four five six")
     expect(diary_entry.reading_chunk(200, 0.01)).to eq "one two"
   end
+
+  it "return first two chunks" do
+    diary_entry = DiaryEntry.new("", "one two three four five six")
+    diary_entry.reading_chunk(200, 0.01)
+    expect(diary_entry.reading_chunk(200, 0.01)).to eq "one two three four"
+  end
 end

@@ -2,6 +2,7 @@ class DiaryEntry
   def initialize(title, contents) # title, contents are strings
     @title = title
     @contents = contents
+    @result = []
   end
 
   def title
@@ -25,20 +26,24 @@ class DiaryEntry
     # for the contents at the given wpm.
   end
 
-  def reading_chunk(wpm, minutes) 
+  def reading_chunk(wpm, minutes)
     time_mins = reading_time(wpm).to_f / 60.to_f
     if time_mins.to_f <= minutes.to_f
       return @contents
     else
-      number_of_words = time_mins.to_f * wpm.to_f
-      @contents[0..number_of_words]
+      number_of_words = minutes.to_f * wpm.to_f
+      @result << @contents.split(" ")[0...number_of_words.to_i]
+      @contents = @contents.split(" ")
+      @contents.delete_at(0)
+      @contents.delete_at(0)
+      @contents = @contents.join(" ")
+      return @result.join(" ")
     end
-    
-    
+
     # `wpm` is an integer representing the number
-                                  # of words the user can read per minute
-                                  # `minutes` is an integer representing the
-                                  # number of minutes the user has to read
+    # of words the user can read per minute
+    # `minutes` is an integer representing the
+    # number of minutes the user has to read
     # Returns a string with a chunk of the contents that the user could read
     # in the given number of minutes.
     # If called again, `reading_chunk` should return the next chunk, skipping
@@ -46,4 +51,3 @@ class DiaryEntry
     # The next call after that it should restart from the beginning.
   end
 end
-
