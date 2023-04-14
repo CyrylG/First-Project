@@ -2,6 +2,7 @@ class DiaryEntry
   def initialize(title, contents) # title, contents are strings
     @title = title
     @contents = contents
+    @contents_backup = contents
     @result = []
   end
 
@@ -28,17 +29,16 @@ class DiaryEntry
 
   def reading_chunk(wpm, minutes)
     time_mins = reading_time(wpm).to_f / 60.to_f
-    if time_mins.to_f <= minutes.to_f
-      return @contents
-    else
-      number_of_words = minutes.to_f * wpm.to_f
-      @result << @contents.split(" ")[0...number_of_words.to_i]
-      @contents = @contents.split(" ")
-      @contents.delete_at(0)
-      @contents.delete_at(0)
-      @contents = @contents.join(" ")
-      return @result.join(" ")
+    number_of_words = minutes.to_f * wpm.to_f
+    if @contents.empty?
+      @contents = @contents_backup
     end
+    @result << @contents.split(" ")[0...number_of_words.to_i]
+    @contents = @contents.split(" ")
+    @contents.shift(number_of_words)
+    @contents = @contents.join(" ")
+    return @result.join(" ")
+    
 
     # `wpm` is an integer representing the number
     # of words the user can read per minute
