@@ -27,4 +27,14 @@ RSpec.describe DiaryEntry do
     diary_entry = DiaryEntry.new("", "one two")
     expect(diary_entry.reading_time(400)).to eq 0.3
   end
+
+  it "return whole content" do
+    diary_entry = DiaryEntry.new("", "one two")
+    expect(diary_entry.reading_chunk(200, 1)).to eq "one two"
+  end
+
+  it "return first chunk" do
+    diary_entry = DiaryEntry.new("", "one two three four five six")
+    expect(diary_entry.reading_chunk(200, 0.01)).to eq "one two"
+  end
 end

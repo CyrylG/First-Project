@@ -17,7 +17,7 @@ class DiaryEntry
   end
 
   def reading_time(wpm)
-    time = count_words * 60 / wpm.to_f
+    @time = count_words * 60 / wpm.to_f
 
     # wpm is an integer representing the number of words the
     # user can read per minute
@@ -25,7 +25,17 @@ class DiaryEntry
     # for the contents at the given wpm.
   end
 
-  def reading_chunk(wpm, minutes) # `wpm` is an integer representing the number
+  def reading_chunk(wpm, minutes) 
+    time_mins = reading_time(wpm).to_f / 60.to_f
+    if time_mins.to_f <= minutes.to_f
+      return @contents
+    else
+      number_of_words = time_mins.to_f * wpm.to_f
+      @contents[0..number_of_words]
+    end
+    
+    
+    # `wpm` is an integer representing the number
                                   # of words the user can read per minute
                                   # `minutes` is an integer representing the
                                   # number of minutes the user has to read
@@ -36,3 +46,4 @@ class DiaryEntry
     # The next call after that it should restart from the beginning.
   end
 end
+
