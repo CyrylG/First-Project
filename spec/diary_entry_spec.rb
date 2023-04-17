@@ -20,12 +20,12 @@ RSpec.describe DiaryEntry do
 
   it "return estimated reading time" do
     diary_entry = DiaryEntry.new("", "one two")
-    expect(diary_entry.reading_time(200)).to eq 0.6
+    expect(diary_entry.reading_time(200)).to eq 0.01
   end
 
   it "return estimated reading time" do
     diary_entry = DiaryEntry.new("", "one two")
-    expect(diary_entry.reading_time(400)).to eq 0.3
+    expect(diary_entry.reading_time(400)).to eq 0.005
   end
 
   it "return whole content" do

@@ -19,7 +19,7 @@ class DiaryEntry
   end
 
   def reading_time(wpm)
-    @time = count_words * 60 / wpm.to_f
+    @time = count_words / wpm.to_f
 
     # wpm is an integer representing the number of words the
     # user can read per minute
@@ -28,14 +28,13 @@ class DiaryEntry
   end
 
   def reading_chunk(wpm, minutes)
-    time_mins = reading_time(wpm).to_f / 60.to_f
-    number_of_words = minutes.to_f * wpm.to_f
+    chunk = minutes.to_f * wpm.to_f
     if @contents.empty?
       @contents = @contents_backup
     end
-    @result << @contents.split(" ")[0...number_of_words.to_i]
+    @result << @contents.split(" ")[0...chunk.to_i]
     @contents = @contents.split(" ")
-    @contents.shift(number_of_words)
+    @contents.shift(chunk)
     @contents = @contents.join(" ")
     return @result.join(" ")
 
@@ -48,5 +47,9 @@ class DiaryEntry
     # If called again, `reading_chunk` should return the next chunk, skipping
     # what has already been read, until the contents is fully read.
     # The next call after that it should restart from the beginning.
+
+    #Misunderstanding: when reading_chunk method is called more then once,
+    #instead of returning a particular chunk, it returns all chunks up to
+    #that point.
   end
 end
