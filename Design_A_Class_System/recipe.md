@@ -199,11 +199,11 @@ diary = Diary.new
 expect(diary.list).to eq []
 
 # 2
-diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_1 = DiaryEntry.new("my_title_1", "one two")
 expect(diary_entry_1.count_words).to eq 2
 
 # 3
-diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_1 = DiaryEntry.new("my_title_1", "one two")
 diary_entry_1.count_words
 expect(diary_entry_1.reading_time(1)).to eq 2
 
