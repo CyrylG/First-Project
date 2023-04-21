@@ -29,7 +29,7 @@ Also design the interface of each class in more detail.
 
 ```ruby
 class Diary
-  initialize
+  def initialize
   end
 
   def add(entry)
@@ -49,7 +49,7 @@ class Diary
 end
 
 class DiaryEntry
-  initialize(title, contents)
+  def initialize(title, contents)
 
   #title and contents are strings
   end
@@ -76,7 +76,7 @@ class DiaryEntry
 end
 
 class TodoList
-  initialize
+  def initialize
   end
 
   def add(todo)
@@ -91,7 +91,7 @@ class TodoList
 end
 
 class Todo
-  initialize(todo)
+  def initialize(todo)
 
   #todo is a string
   end
@@ -103,7 +103,7 @@ class Todo
 end
 
 class Contacts
-  initialize(diary)
+  def initialize(diary)
   
   #diary is instance of Diary
   end
@@ -122,24 +122,100 @@ end
 3. Create Examples as Integration Tests
 Create examples of the classes being used together in different situations and combinations that reflect the ways in which the system will be used.
 
-# EXAMPLE
+```ruby
 
-# Gets all tracks
-library = MusicLibrary.new
-track_1 = Track.new("Carte Blanche", "Veracocha")
-track_2 = Track.new("Synaesthesia", "The Thrillseekers")
-library.add(track_1)
-library.add(track_2)
-library.all # => [track_1, track_2]
+# 1
+diary = Diary.new
+diary_entry_1 = DiaryEntry("my_title_1", "my_contents_1")
+diary_entry_2 = DiaryEntry("my_title_2", "my_contents_2")
+diary.add(diary_entry_1)
+diary.add(diary_entry_2)
+expect(diary.list).to eq [diary_entry_1, diary_entry_2]
+
+# 2
+
+diary = Diary.new
+diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_2 = DiaryEntry("my_title_2", "three")
+diary.add(diary_entry_1)
+diary.add(diary_entry_2)
+result = diary.readable_entries(2, 1)
+expect(result).to eq [diary_entry_1, diary_entry_2]
+
+# 3
+
+diary = Diary.new
+diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_2 = DiaryEntry("my_title_2", "three")
+diary.add(diary_entry_1)
+diary.add(diary_entry_2)
+result = diary.readable_entries(1, 1)
+expect(result).to eq [diary_entry_2]
+
+# 4
+
+diary = Diary.new
+diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_2 = DiaryEntry("my_title_2", "three")
+diary.add(diary_entry_1)
+diary.add(diary_entry_2)
+expect { diary.readable_entries(1, 0) }.to raise_error "message"
+
+# 5
+
+diary = Diary.new
+diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_2 = DiaryEntry("my_title_2", "three")
+diary.add(diary_entry_1)
+diary.add(diary_entry_2)
+expect { diary.readable_entries(0, 1) }.to raise_error "message"
+
+# 6 
+
+todo_list = TodoList.new
+todo_1 = Todo.new("todo_1")
+todo_list.add(todo_1)
+todo_2 = Todo.new("todo_2")
+todo_list.add(todo_2)
+expect(todo_list.list).to eq [todo_1, todo_2]
+
+# 7
+
+diary = Diary.new
+contacts = Contacts.new
+diary_entry_1 = DiaryEntry.new("my_tittl", "one two 07000000000")
+contacts.extract_numbers
+expect(contacts.list).to eq ["07000000000"]
+
+```
+
 4. Create Examples as Unit Tests
 Create examples, where appropriate, of the behaviour of each relevant class at a more granular level of detail.
 
-# EXAMPLE
+```ruby
 
-# Constructs a track
-track = Track.new("Carte Blanche", "Veracocha")
-track.title # => "Carte Blanche"
-Encode each example as a test. You can add to the above list as you go.
+# 1 
+diary = Diary.new
+expect(diary.list).to eq []
+
+# 2
+diary_entry_1 = DiaryEntry("my_title_1", "one two")
+expect(diary_entry_1.count_words).to eq 2
+
+# 3
+diary_entry_1 = DiaryEntry("my_title_1", "one two")
+diary_entry_1.count_words
+expect(diary_entry_1.reading_time(1)).to eq 2
+
+# 4 
+todo_list = TodoList.new
+expect(todo_list.list).to eq []
+
+# 5 
+todo_1 = Todo.new("todo_1")
+expect(todo_1.todo).to eq "todo_1
+
+```
 
 5. Implement the Behaviour
 After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
